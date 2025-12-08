@@ -1,4 +1,4 @@
-# The Best Movers - React Website
+# Moving Ease - React Website
 
 A complete, professional, and fully responsive React website for a moving company.
 
