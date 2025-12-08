@@ -119,4 +119,4 @@ For issues or questions, please contact the development team.
 
 ## License
 
-© 2024 The Best Movers. All rights reserved.
+© 2025 Moving Ease . All rights reserved( Ryan Notam & Junior Notam)
