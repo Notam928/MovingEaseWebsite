@@ -1,0 +1,218 @@
+================================================================
+THE BEST MOVERS - REACT WEBSITE SETUP INSTRUCTIONS
+================================================================
+
+QUICK START GUIDE
+================================================================
+
+Step 1: INSTALL NODE.JS (if you don't have it)
+-----------------------------------------------
+1. Go to: https://nodejs.org/
+2. Download the LTS version (Long Term Support)
+3. Run the installer
+4. Open Terminal/Command Prompt and verify:
+   
+   node --version
+   npm --version
+
+   You should see version numbers appear.
+
+
+Step 2: EXTRACT THE ZIP FILE
+-----------------------------
+1. Extract "movers-website-project.zip" to your desired location
+2. Remember the folder location
+
+
+Step 3: OPEN TERMINAL IN PROJECT FOLDER
+----------------------------------------
+Windows:
+  - Open the folder in File Explorer
+  - Type "cmd" in the address bar
+  - Press Enter
+
+Mac/Linux:
+  - Open Terminal
+  - Use 'cd' command to navigate:
+    cd /path/to/movers-website-project
+
+
+Step 4: INSTALL DEPENDENCIES
+-----------------------------
+In the terminal, run:
+
+npm install
+
+This will take 2-5 minutes. Wait until it completes.
+
+
+Step 5: START THE WEBSITE
+--------------------------
+After installation completes, run:
+
+npm start
+
+The website will automatically open in your browser at:
+http://localhost:3000
+
+If it doesn't open automatically, manually open your browser
+and go to: http://localhost:3000
+
+
+================================================================
+TROUBLESHOOTING
+================================================================
+
+Problem: "npm: command not found"
+Solution: Node.js is not installed. Go back to Step 1.
+
+Problem: "Port 3000 is already in use"
+Solution: Either:
+  - Close the other app using port 3000, OR
+  - The terminal will ask if you want to use another port. Type 'y' and press Enter.
+
+Problem: Installation fails
+Solution: Try:
+  npm cache clean --force
+  npm install
+
+Problem: "Module not found" errors
+Solution: Make sure you ran "npm install" first.
+
+Problem: Website doesn't look right
+Solution: 
+  - Clear your browser cache (Ctrl+Shift+Delete)
+  - Refresh the page (Ctrl+R or Cmd+R)
+
+
+================================================================
+PROJECT STRUCTURE
+================================================================
+
+movers-website-project/
+├── public/
+│   └── index.html          <- Main HTML file
+├── src/
+│   ├── App.jsx             <- Main application (all pages included)
+│   ├── index.js            <- Entry point
+│   └── index.css           <- Global styles
+├── package.json            <- Project dependencies
+├── tailwind.config.js      <- Tailwind CSS config
+└── README.md               <- Project documentation
+
+
+================================================================
+CUSTOMIZATION
+================================================================
+
+To change content:
+1. Open: src/App.jsx
+2. Search for the text you want to change
+3. Save the file
+4. The browser will automatically refresh
+
+To change colors:
+1. Open: src/App.jsx
+2. Find color classes like: "bg-blue-600" or "text-orange-500"
+3. Replace with your preferred Tailwind colors
+4. Save and the browser will refresh
+
+To add your own images:
+1. Replace the Unsplash image URLs with your own
+2. Format: <img src="your-image-url.jpg" alt="description" />
+
+
+================================================================
+BUILDING FOR PRODUCTION
+================================================================
+
+When you're ready to deploy your website:
+
+npm run build
+
+This creates an optimized production build in the "build" folder.
+You can upload this folder to any web hosting service.
+
+
+================================================================
+COMMON COMMANDS
+================================================================
+
+Start development server:
+npm start
+
+Create production build:
+npm run build
+
+Install dependencies:
+npm install
+
+Stop the server:
+Press Ctrl+C in the terminal
+
+
+================================================================
+PAGES INCLUDED
+================================================================
+
+✓ Home Page - Hero, services preview, process, CTA
+✓ Services Page - All 6 services with detailed descriptions
+✓ About Us Page - Mission, values, team members, statistics
+✓ Testimonials Page - Customer reviews and ratings
+✓ FAQ Page - 10+ frequently asked questions
+✓ Contact Page - Contact form and company information
+
+
+================================================================
+FEATURES
+================================================================
+
+✓ Fully responsive (mobile, tablet, desktop)
+✓ Beautiful blue & orange color scheme
+✓ Animated counters (15+, 10000+, 99%)
+✓ Smooth page transitions
+✓ Mobile-friendly navigation
+✓ Professional UI/UX design
+✓ Real content from The Best Movers
+✓ Contact forms ready to connect
+✓ SEO-friendly structure
+
+
+================================================================
+TECH STACK
+================================================================
+
+- React 18
+- Tailwind CSS
+- Lucide React Icons
+- Google Fonts (Montserrat)
+
+
+================================================================
+SUPPORT
+================================================================
+
+If you need help:
+1. Check the README.md file
+2. Review this SETUP_INSTRUCTIONS.txt file
+3. Search online for specific error messages
+4. Common React issues: https://react.dev/learn
+
+
+================================================================
+NEXT STEPS
+================================================================
+
+After setup:
+1. Replace placeholder phone numbers with real ones
+2. Add your actual email address
+3. Update company address
+4. Replace stock images with your photos
+5. Connect contact form to your email service
+6. Test on mobile devices
+7. Deploy to web hosting
+
+
+================================================================
+Good luck with your website! 🚀
+================================================================
