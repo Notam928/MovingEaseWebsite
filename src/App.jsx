@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Truck, Package, Home, Building2, MapPin, Phone, Mail, Clock, Shield, Users, Star, ArrowRight, CheckCircle2, Menu, X, ChevronDown, Quote, Award, Target, Heart, Briefcase, Archive, Trash2, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { useRef } from "react";
+import { sendEmail } from "./services/emailService";
 
 // Counter Animation Component
 const AnimatedCounter = ({ end, duration = 2000, suffix = '' }) => {
@@ -70,7 +72,7 @@ const Router = () => {
               <h1 className="text-3xl font-black tracking-tight bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">
                 Moving Ease
               </h1>
-              <p className="text-sm text-gray-600 font-semibold">Ottawa & Gatineau Moving Services</p>
+              <p className="text-sm text-gray-600 font-semibold">Ottawa , Gatineau and Quebec Moving Services</p>
             </div>
           </div>
 
@@ -1343,6 +1345,21 @@ const FAQPage = ({ navigateTo }) => {
 
 // CONTACT PAGE
 const ContactPage = ({ navigateTo }) => {
+ const formRef = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    sendEmail(formRef)
+      .then(() => {
+        alert("Message envoyé avec succès !");
+        formRef.current.reset();
+      })
+      .catch(() => {
+        alert("Erreur lors de l’envoi");
+      });
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -1428,8 +1445,12 @@ const ContactPage = ({ navigateTo }) => {
             </div>
 
             {/* Contact Form - 3 columns */}
+           
+
             <div className="lg:col-span-3">
-              <div className="p-10 rounded-3xl bg-gradient-to-br from-gray-50 to-blue-50 border-2 border-gray-200 shadow-xl">
+              <form className="p-10 rounded-3xl bg-gradient-to-br from-gray-50 to-blue-50 border-2 border-gray-200 shadow-xl"
+              ref={formRef}
+              onSubmit={handleSubmit}>
                 <h3 className="text-3xl font-black mb-8 text-gray-900">Request Your Free Quote</h3>
                 
                 <div className="space-y-6">
@@ -1438,6 +1459,7 @@ const ContactPage = ({ navigateTo }) => {
                       <label className="block text-sm font-black text-gray-700 mb-2">Full Name *</label>
                       <input
                         type="text"
+                        name = "fullname"
                         className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
                         placeholder="John Doe"
                       />
@@ -1447,6 +1469,7 @@ const ContactPage = ({ navigateTo }) => {
                       <label className="block text-sm font-black text-gray-700 mb-2">Phone Number *</label>
                       <input
                         type="tel"
+                        name = "phone"
                         className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
                         placeholder="(555) 123-4567"
                       />
@@ -1457,6 +1480,7 @@ const ContactPage = ({ navigateTo }) => {
                     <label className="block text-sm font-black text-gray-700 mb-2">Email Address *</label>
                     <input
                       type="email"
+                      name = "emailaddress"
                       className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
                       placeholder="john@example.com"
                     />
@@ -1467,6 +1491,7 @@ const ContactPage = ({ navigateTo }) => {
                       <label className="block text-sm font-black text-gray-700 mb-2">Move From *</label>
                       <input
                         type="text"
+                        name = "movefrom"
                         className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
                         placeholder="Current Address"
                       />
@@ -1476,6 +1501,7 @@ const ContactPage = ({ navigateTo }) => {
                       <label className="block text-sm font-black text-gray-700 mb-2">Move To *</label>
                       <input
                         type="text"
+                        name = "moveto"
                         className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200"
                         placeholder="Destination Address"
                       />
@@ -1487,26 +1513,28 @@ const ContactPage = ({ navigateTo }) => {
                       <label className="block text-sm font-black text-gray-700 mb-2">Move Date *</label>
                       <input
                         type="date"
+                        name = "movedate"
                         className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 transition-all duration-200"
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-black text-gray-700 mb-2">Service Type *</label>
-                      <select className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 transition-all duration-200">
-                        <option>Select a service</option>
-                        <option>Residential Move</option>
-                        <option>Commercial Move</option>
-                        <option>Long Distance Move</option>
-                        <option>Packing Services</option>
-                        <option>Storage Solutions</option>
-                        <option>Junk Removal</option>
+                      <select name="serviceType" required className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 transition-all duration-200">
+                        <option value="">Select a service</option>
+                        <option value="Residential Move">Residential Move</option>
+                        <option value="Commercial Move">Commercial Move</option>
+                        <option value="Long Distance Move">Long Distance Move</option>
+                        <option value="Packing Services">Packing Services</option>
+                        <option value="Storage Solutions">Storage Solutions</option>
+                        <option value="Junk Removal">Junk Removal</option>
                       </select>
                     </div>
+                    
                   </div>
 
                   <div>
-                    <label className="block text-sm font-black text-gray-700 mb-2">Additional Details</label>
+                    <label className="block text-sm font-black text-gray-700 mb-2" name ="message">Additional Details</label>
                     <textarea
                       rows="6"
                       className="w-full px-4 py-4 rounded-xl bg-white border-2 border-gray-300 focus:border-blue-600 focus:outline-none text-gray-900 placeholder-gray-400 transition-all duration-200 resize-none"
@@ -1526,7 +1554,9 @@ const ContactPage = ({ navigateTo }) => {
                     * Required fields. We respect your privacy and will never share your information.
                   </p>
                 </div>
-              </div>
+
+              </form>
+
             </div>
           </div>
         </div>
