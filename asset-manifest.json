@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Notam928/MovingEaseWebsite/static/css/main.76b1d3d8.css",
+    "main.js": "/Notam928/MovingEaseWebsite/static/js/main.ea155d2b.js",
+    "index.html": "/Notam928/MovingEaseWebsite/index.html",
+    "main.76b1d3d8.css.map": "/Notam928/MovingEaseWebsite/static/css/main.76b1d3d8.css.map",
+    "main.ea155d2b.js.map": "/Notam928/MovingEaseWebsite/static/js/main.ea155d2b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.76b1d3d8.css",
+    "static/js/main.ea155d2b.js"
+  ]
+}
