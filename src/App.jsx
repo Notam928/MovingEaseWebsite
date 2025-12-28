@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Truck, Package, Home, Building2, MapPin, Phone, Mail, Clock, Shield, Users, Star, ArrowRight, CheckCircle2, Menu, X, ChevronDown, Quote, Award, Target, Heart, Briefcase, Archive, Trash2, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Truck, Package, Home, Building2, MapPin, Phone, Mail, Clock, Shield, Users, Star, ArrowRight, CheckCircle2, Menu, X, ChevronDown, Quote, Award, Target, Heart, Briefcase, Archive, Trash2, Facebook, Twitter, Instagram, Linkedin, Globe } from 'lucide-react';
 import { useRef } from "react";
 import { sendEmail } from "./services/emailService";
+import { useTranslation } from "react-i18next";
+import "./i18n";
 
 // Counter Animation Component
 const AnimatedCounter = ({ end, duration = 2000, suffix = '' }) => {
@@ -35,6 +37,11 @@ const Router = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { t, i18n } = useTranslation();
+  
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,6 +85,16 @@ const Router = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
+            {/* Language Toggle Button */}
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-orange-500 text-white rounded-lg font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+              title={i18n.language === 'en' ? 'Switch to French' : 'Switch to English'}
+            >
+              <Globe className="w-5 h-5" />
+              <span>{i18n.language === 'en' ? 'FR' : 'EN'}</span>
+            </button>
+            
             <button 
               onClick={() => navigateTo('home')} 
               className={`font-bold transition-colors duration-200 ${
@@ -95,20 +112,20 @@ const Router = () => {
               Services
             </button>
             <button 
+              onClick={() => navigateTo('packages')} 
+              className={`font-bold transition-colors duration-200 ${
+                currentPage === 'packages' ? 'text-blue-600' : 'text-gray-700 hover:text-orange-500'
+              }`}
+            >
+              Our Packages
+            </button>
+            <button 
               onClick={() => navigateTo('about')} 
               className={`font-bold transition-colors duration-200 ${
                 currentPage === 'about' ? 'text-blue-600' : 'text-gray-700 hover:text-orange-500'
               }`}
             >
               About Us
-            </button>
-            <button 
-              onClick={() => navigateTo('testimonials')} 
-              className={`font-bold transition-colors duration-200 ${
-                currentPage === 'testimonials' ? 'text-blue-600' : 'text-gray-700 hover:text-orange-500'
-              }`}
-            >
-              Testimonials
             </button>
             <button 
               onClick={() => navigateTo('faq')} 
@@ -143,17 +160,24 @@ const Router = () => {
       {isMenuOpen && (
         <div className="lg:hidden bg-white border-t border-gray-200 shadow-xl">
           <div className="px-4 py-6 space-y-3">
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center justify-center space-x-2 w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-orange-500 text-white rounded-lg font-bold mb-3"
+            >
+              <Globe className="w-5 h-5" />
+              <span>{i18n.language === 'en' ? 'FR' : 'EN'}</span>
+            </button>
             <button onClick={() => navigateTo('home')} className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold transition-all duration-200">
               Home
             </button>
             <button onClick={() => navigateTo('services')} className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold transition-all duration-200">
               Services
             </button>
+            <button onClick={() => navigateTo('packages')} className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold transition-all duration-200">
+              Our Packages
+            </button>
             <button onClick={() => navigateTo('about')} className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold transition-all duration-200">
               About Us
-            </button>
-            <button onClick={() => navigateTo('testimonials')} className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold transition-all duration-200">
-              Testimonials
             </button>
             <button onClick={() => navigateTo('faq')} className="block w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-bold transition-all duration-200">
               FAQ
@@ -205,8 +229,9 @@ const Router = () => {
             <ul className="space-y-3">
               <li><button onClick={() => navigateTo('home')} className="text-gray-400 hover:text-orange-500 transition-colors">Home</button></li>
               <li><button onClick={() => navigateTo('services')} className="text-gray-400 hover:text-orange-500 transition-colors">Services</button></li>
+              <li><button onClick={() => navigateTo('packages')} className="text-gray-400 hover:text-orange-500 transition-colors">Our Packages</button></li>
               <li><button onClick={() => navigateTo('about')} className="text-gray-400 hover:text-orange-500 transition-colors">About Us</button></li>
-              <li><button onClick={() => navigateTo('testimonials')} className="text-gray-400 hover:text-orange-500 transition-colors">Testimonials</button></li>
+              <li></li>
               <li><button onClick={() => navigateTo('faq')} className="text-gray-400 hover:text-orange-500 transition-colors">FAQ</button></li>
             </ul>
           </div>
@@ -231,7 +256,7 @@ const Router = () => {
               <li className="flex items-start space-x-3">
                 <Phone className="w-5 h-5 text-orange-500 mt-1 flex-shrink-0" />
                 <div>
-                  <div className="text-white font-bold">(819) 661-3882</div>
+                  <div className="text-white font-bold">(613) 908-1420</div>
                   <div className="text-sm text-gray-400">Available 24/7</div>
                 </div>
               </li>
@@ -249,7 +274,7 @@ const Router = () => {
 
         <div className="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-400 text-sm">
-            © 2025 Moving Ease. All rights reserved (Ryan Notam & Junior Notam)
+            © 2025 Moving Ease. All rights reserved (Junior Notam)
           </p>
           <div className="flex space-x-6">
             <a href="#" className="text-gray-400 hover:text-orange-500 transition-colors text-sm">Privacy Policy</a>
@@ -267,10 +292,10 @@ const Router = () => {
         return <HomePage navigateTo={navigateTo} />;
       case 'services':
         return <ServicesPage navigateTo={navigateTo} />;
+      case 'packages':
+        return <PackagesPage navigateTo={navigateTo} />;
       case 'about':
         return <AboutPage navigateTo={navigateTo} />;
-      case 'testimonials':
-        return <TestimonialsPage navigateTo={navigateTo} />;
       case 'faq':
         return <FAQPage navigateTo={navigateTo} />;
       case 'contact':
@@ -309,7 +334,7 @@ const HomePage = ({ navigateTo }) => {
             <div className="text-white space-y-8">
               <div className="inline-flex items-center space-x-2 px-5 py-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full">
                 <Star className="w-5 h-5 text-yellow-300 fill-yellow-300" />
-                <span className="text-sm font-bold">Rated 5-Stars by 1000+ Customers</span>
+                <span className="text-sm font-bold">Rated 5-Stars by 50+ Customers</span>
               </div>
               
               <h1 className="text-5xl md:text-7xl font-black leading-tight">
@@ -319,8 +344,7 @@ const HomePage = ({ navigateTo }) => {
               </h1>
               
               <p className="text-xl md:text-2xl leading-relaxed text-white/90">
-                Wanting to move but don't want to deal with the stress and tension moving comes with? We are here to help! 
-                At Moving Ease our main goal is to provide professional moving services at a low cost!
+                Wanting to move but don't want to deal with the stress and tension moving comes with? We are here to help! At Moving Ease our main goal is to provide professional moving services at a low cost!
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -347,21 +371,21 @@ const HomePage = ({ navigateTo }) => {
               <div className="grid grid-cols-3 gap-8 pt-8">
                 <div className="text-center">
                   <div className="text-5xl font-black text-yellow-300">
-                    <AnimatedCounter end={15} suffix="+" />
+                    <AnimatedCounter end={2} suffix="+" />
                   </div>
-                  <div className="text-sm md:text-base font-semibold text-white/80 mt-2">Years Experience</div>
+                  <div className="text-sm md:text-base font-semibold text-white/90 mt-2">Years Experience</div>
                 </div>
                 <div className="text-center">
                   <div className="text-5xl font-black text-yellow-300">
-                    <AnimatedCounter end={10000} suffix="+" />
+                    <AnimatedCounter end={50} suffix="+" />
                   </div>
-                  <div className="text-sm md:text-base font-semibold text-white/80 mt-2">Happy Customers</div>
+                  <div className="text-sm md:text-base font-semibold text-white/90 mt-2">Happy Customers</div>
                 </div>
                 <div className="text-center">
                   <div className="text-5xl font-black text-yellow-300">
                     <AnimatedCounter end={99} suffix="%" />
                   </div>
-                  <div className="text-sm md:text-base font-semibold text-white/80 mt-2">Success Rate</div>
+                  <div className="text-sm md:text-base font-semibold text-white/90 mt-2">Success Rate</div>
                 </div>
               </div>
             </div>
@@ -783,7 +807,7 @@ const ServicesPage = ({ navigateTo }) => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <img 
-                  src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=700&h=700&fit=crop" 
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=700&h=700&fit=crop" 
                   alt="Junk removal" 
                   className="w-full h-[500px] object-cover rounded-3xl shadow-2xl"
                 />
@@ -843,6 +867,335 @@ const ServicesPage = ({ navigateTo }) => {
 };
 
 // ABOUT PAGE
+
+// PACKAGES PAGE
+const PackagesPage = ({ navigateTo }) => {
+  return (
+    <>
+      {/* Hero Section */}
+      <section className="relative py-20 bg-gradient-to-br from-blue-600 to-orange-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-7xl font-black text-white mb-6">
+            Our Moving <span className="text-yellow-300">Packages</span>
+          </h1>
+          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+            Choose the perfect package for your move. From small apartments to large homes, we have a solution for every need and budget.
+          </p>
+        </div>
+      </section>
+
+      {/* Truck Sizes Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+              Our <span className="text-blue-600">Fleet</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Professional trucks of all sizes to match your moving needs
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Small Truck */}
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden border-2 border-gray-100 hover:border-blue-500 transition-all duration-300 hover:scale-105">
+              <div className="relative h-64 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=800&h=600&fit=crop" 
+                  alt="Small moving truck"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent"></div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-black text-gray-900 mb-2">Small Truck</h3>
+                <p className="text-blue-600 font-bold mb-4">10-12 Feet</p>
+                <ul className="space-y-3 text-gray-600 mb-6">
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    Studio / 1 Bedroom
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    2 Professional Movers
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    Perfect for Small Moves
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Medium Truck */}
+            <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-orange-500 hover:scale-105 transition-all duration-300">
+              <div className="absolute top-4 right-4 bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-bold z-10">
+                Popular
+              </div>
+              <div className="relative h-64 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&h=600&fit=crop" 
+                  alt="Medium moving truck"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-900/60 to-transparent"></div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-black text-gray-900 mb-2">Medium Truck</h3>
+                <p className="text-orange-600 font-bold mb-4">16-18 Feet</p>
+                <ul className="space-y-3 text-gray-600 mb-6">
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    2-3 Bedrooms
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    3 Professional Movers
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    Most Common Choice
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Large Truck */}
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden border-2 border-gray-100 hover:border-blue-500 transition-all duration-300 hover:scale-105">
+              <div className="relative h-64 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1473445730015-841f29a9490b?w=800&h=600&fit=crop" 
+                  alt="Large moving truck"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent"></div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-black text-gray-900 mb-2">Large Truck</h3>
+                <p className="text-gray-700 font-bold mb-4">24-26 Feet</p>
+                <ul className="space-y-3 text-gray-600 mb-6">
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    4+ Bedrooms / Commercial
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    4-5 Professional Movers
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
+                    Big Moves & Offices
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Packages Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+              Choose Your <span className="text-orange-600">Package</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Flexible packages designed to fit your budget and requirements
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Basic Package */}
+            <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-gray-100 hover:border-blue-500 transition-all duration-300">
+              <div className="inline-flex p-4 bg-blue-100 rounded-2xl mb-6">
+                <Package className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 mb-2">Basic Move</h3>
+             
+              <ul className="space-y-3 text-gray-600 mb-8">
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Loading & Unloading
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Safe Transportation
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  2-Person Team
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Small Truck (10-12ft)
+                </li>
+              </ul>
+              <p className="text-sm text-gray-500 mb-6">Perfect for studio & 1-bedroom</p>
+              <button 
+                onClick={() => navigateTo('contact')}
+                className="w-full px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all duration-200"
+              >
+                Get This Package
+              </button>
+            </div>
+
+            {/* Standard Package */}
+            <div className="bg-white rounded-3xl shadow-2xl p-8 border-2 border-orange-500 relative hover:scale-105 transition-all duration-300">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-6 py-1 rounded-full text-sm font-bold">
+                Most Popular
+              </div>
+              <div className="inline-flex p-4 bg-orange-100 rounded-2xl mb-6">
+                <Home className="w-8 h-8 text-orange-600" />
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 mb-2">Standard Move</h3>
+              
+              <ul className="space-y-3 text-gray-600 mb-8">
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Everything in Basic
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Basic Packing Materials
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Furniture Protection
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  3-Person Team
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Medium Truck (16-18ft)
+                </li>
+              </ul>
+              <p className="text-sm text-gray-500 mb-6">Perfect for 2-3 bedrooms</p>
+              <button 
+                onClick={() => navigateTo('contact')}
+                className="w-full px-6 py-3 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 transition-all duration-200"
+              >
+                Get This Package
+              </button>
+            </div>
+
+            {/* Premium Package */}
+            <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-gray-100 hover:border-purple-500 transition-all duration-300">
+              <div className="inline-flex p-4 bg-purple-100 rounded-2xl mb-6">
+                <Award className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 mb-2">Premium Move</h3>
+             
+              <ul className="space-y-3 text-gray-600 mb-8">
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Everything in Standard
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Full Packing Service
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Furniture Disassembly/Assembly
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Full Insurance Coverage
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  4-5 Person Team
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Large Truck (24-26ft)
+                </li>
+              </ul>
+              <p className="text-sm text-gray-500 mb-6">Perfect for 4+ bedrooms</p>
+              <button 
+                onClick={() => navigateTo('contact')}
+                className="w-full px-6 py-3 bg-purple-600 text-white rounded-xl font-bold hover:bg-purple-700 transition-all duration-200"
+              >
+                Get This Package
+              </button>
+            </div>
+
+            {/* Long Distance Package */}
+            <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-gray-100 hover:border-green-500 transition-all duration-300">
+              <div className="inline-flex p-4 bg-green-100 rounded-2xl mb-6">
+                <MapPin className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 mb-2">Long Distance</h3>
+              <div className="text-4xl font-black text-green-600 mb-6">
+                Custom<span className="text-lg text-gray-500"> Quote</span>
+              </div>
+              <ul className="space-y-3 text-gray-600 mb-8">
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Door-to-Door Service
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Real-Time GPS Tracking
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Storage Options Available
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Specialized Team
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  Any Truck Size
+                </li>
+              </ul>
+              <p className="text-sm text-gray-500 mb-6">Moving across provinces</p>
+              <button 
+                onClick={() => navigateTo('contact')}
+                className="w-full px-6 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all duration-200"
+              >
+                Get Custom Quote
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-600 to-orange-500">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
+            Not Sure Which Package Is Right For You?
+          </h2>
+          <p className="text-xl text-white/90 mb-10">
+            Contact us for a free consultation and we'll help you choose the perfect package for your move.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => navigateTo('contact')}
+              className="px-10 py-5 bg-white text-blue-600 rounded-2xl font-black text-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-200"
+            >
+              Get Free Consultation
+            </button>
+            <a 
+              href="tel:6139081420"
+              className="px-10 py-5 border-3 border-white text-white rounded-2xl font-black text-xl hover:bg-white/10 transition-all duration-200 flex items-center justify-center space-x-2"
+            >
+              <Phone className="w-6 h-6" />
+              <span>(613) 908-1420</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+
 const AboutPage = ({ navigateTo }) => {
   return (
     <>
@@ -964,9 +1317,9 @@ const AboutPage = ({ navigateTo }) => {
 
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { end: 15, suffix: '+', label: 'Years of Experience' },
-              { end: 10000, suffix: '+', label: 'Happy Customers' },
-              { end: 50, suffix: '+', label: 'Professional Movers' },
+              { end: 2, suffix: '+', label: 'Years of Experience' },
+              { end: 50, suffix: '+', label: 'Happy Customers' },
+              { end: 10, suffix: '+', label: 'Professional Movers' },
               { end: 99, suffix: '%', label: 'Satisfaction Rate' }
             ].map((stat, index) => (
               <div key={index} className="text-center p-8 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
@@ -981,42 +1334,6 @@ const AboutPage = ({ navigateTo }) => {
       </section>
 
       {/* Team Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-5xl md:text-6xl font-black text-gray-900">
-              Meet Our <span className="bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">Team</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our team of skilled movers is highly trained and experienced, ensuring that your belongings are in capable hands.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { name: 'Charles', role: 'Lead Mover', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop' },
-              { name: 'Jordan', role: 'Senior Mover', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop' },
-              { name: 'Noah', role: 'Moving Specialist', image: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop' },
-              { name: 'Antoine', role: 'Logistics Expert', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop' }
-            ].map((member, index) => (
-              <div key={index} className="group">
-                <div className="relative overflow-hidden rounded-2xl mb-4">
-                  <img 
-                    src={member.image} 
-                    alt={member.name} 
-                    className="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <h3 className="text-2xl font-black">{member.name}</h3>
-                    <p className="text-sm text-gray-200">{member.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50">
@@ -1043,143 +1360,6 @@ const AboutPage = ({ navigateTo }) => {
 };
 
 // TESTIMONIALS PAGE
-const TestimonialsPage = ({ navigateTo }) => {
-  const testimonials = [
-    {
-      name: "Ryan Bellefeuille",
-      text: "I recently moved with Moving Ease Ottawa, and I couldn't be more impressed! Their team was punctual, professional, and treated my belongings with the utmost care. From the initial consultation to the final delivery, the entire process was seamless and stress-free. The movers were efficient yet careful, ensuring everything was securely packed and safely transported. I appreciated their transparent pricing-no hidden fees or surprises. They went above and beyond to make my move as smooth as possible. I highly recommend Moving Ease Ottawa to anyone looking for reliable and high-quality moving services!",
-      rating: 5
-    },
-    {
-      name: "David Daud",
-      text: "5-star experience with Moving Ease! A huge move from a 5-bedroom house in Ottawa to a 4-story townhouse in London. Charles, Kemo, Arnold, and Antione worked for 13 hours almost constantly. Amazing crew; absolutely no issues. Real professionals are client-oriented, humble, respectful, and have strong ethics. Thank you! I'm really happy with this move, and I would recommend them to anyone.",
-      rating: 5
-    },
-    {
-      name: "Karen Hunter",
-      text: "Dear Jordan, Mohamed, Arnaud, Gadir and Noah, I cannot begin to express my gratitude to all of you for my recent move from Brockville to Echo Bay, Ontario. I have moved locations many times in my life, and without a doubt, this was, by far, the most incredible service I have ever received. You were all so very experienced in all aspects of this move, from the impeccable job of wrapping the furniture to the cautious way you manouvered my belongings down 3 flights of stairs. Upon delivery there was nothing broken or misplaced, amazing!! As for the drive that should have been 6 hours, there were 2 serious accidents along highway 17 forcing the highway to be closed twice, and yet the boys showed up with smiles on their faces and ready to start unloading without having stopped to even eat in 12 1/2 hours!! Five stars is definitely not enough, in my opinion for this company. I urge anyone who is about to consider a move, to look no further than Best Movers.",
-      rating: 5
-    },
-    {
-      name: "Lyssa Biadora",
-      text: "Loved their service! It's the second time we use this company. Alhaj and Noah were great. They were fast, made sure to be careful with our belongings and helped us with whatever we needed. Moving can be stressful, but not with these guys!",
-      rating: 5
-    },
-    {
-      name: "Mittal Patel",
-      text: "We had the pleasure of working with Antoine, Noah, Kemo, and Omer for a big move involving furniture for our motel, and I can't say enough good things about them! From start to finish, they were incredibly professional, efficient, and went above and beyond to make sure everything went smoothly. The team handled a very large and heavy load with ease, ensuring that all items were safely transported and placed exactly where we needed them. Their attention to detail and dedication to the job was evident in every step of the process. Not only were they prompt and hardworking, but they were also friendly and courteous, making the entire experience stress-free. We are so grateful for their excellent service and would highly recommend them to anyone needing movers. Thank you, Antoine, Noah, Kemo, and Omer - you guys truly made a big difference for our business!",
-      rating: 5
-    },
-    {
-      name: "Dan Miller",
-      text: "They did an amazing job! They moved quickly, handled everything with care, and were very friendly. Saved us from a lot of stress and aggravation. Would recommend to everyone!",
-      rating: 5
-    }
-  ];
-
-  return (
-    <>
-      {/* Hero Section */}
-      <section className="relative py-24 bg-gradient-to-br from-blue-600 to-orange-500 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-6xl md:text-7xl font-black mb-6">
-            Customer <span className="text-yellow-300">Testimonials</span>
-          </h1>
-          <p className="text-2xl text-white/90 max-w-3xl mx-auto">
-            Don't just take our word for it - hear from our satisfied customers who have experienced our exceptional moving services.
-          </p>
-        </div>
-      </section>
-
-      {/* Testimonials Grid */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="group p-8 rounded-2xl bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 hover:border-blue-500 hover:shadow-2xl transition-all duration-300 hover:scale-105"
-              >
-                {/* Quote Icon */}
-                <Quote className="w-12 h-12 text-blue-600/20 mb-4" />
-
-                {/* Stars */}
-                <div className="flex space-x-1 mb-6">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-                  ))}
-                </div>
-
-                {/* Testimonial Text */}
-                <p className="text-gray-700 leading-relaxed mb-6 italic">"{testimonial.text}"</p>
-
-                {/* Author */}
-                <div className="pt-4 border-t border-gray-200">
-                  <div className="font-black text-xl text-gray-900">{testimonial.name}</div>
-                  <div className="text-sm text-gray-500">Verified Customer</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Trust Indicators */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-5xl md:text-6xl font-black text-gray-900">
-              Why Customers <span className="bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">Trust Us</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { icon: Star, value: '5.0', label: 'Average Rating' },
-              { icon: Users, value: '1000+', label: 'Reviews' },
-              { icon: Award, value: '100%', label: 'Verified' },
-              { icon: Heart, value: '99%', label: 'Would Recommend' }
-            ].map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <div key={index} className="text-center p-8 rounded-2xl bg-white border-2 border-gray-200 shadow-lg">
-                  <div className="inline-flex p-4 rounded-xl bg-gradient-to-br from-blue-600 to-orange-500 mb-4 shadow-lg">
-                    <Icon className="w-8 h-8 text-white" />
-                  </div>
-                  <div className="text-5xl font-black text-gray-900 mb-2">{stat.value}</div>
-                  <div className="text-lg font-bold text-gray-600">{stat.label}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-blue-600 to-orange-500 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-5xl md:text-6xl font-black mb-6">
-            Ready to Experience <span className="text-yellow-300">5-Star Service?</span>
-          </h2>
-          <p className="text-2xl mb-10 text-white/90">
-            Join thousands of satisfied customers who chose Moving Ease for their relocation needs.
-          </p>
-          <button 
-            onClick={() => navigateTo('contact')}
-            className="group relative"
-          >
-            <div className="absolute inset-0 bg-yellow-400 rounded-2xl blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative px-12 py-6 bg-yellow-400 hover:bg-yellow-300 rounded-2xl font-black text-2xl text-gray-900 shadow-2xl transform group-hover:scale-105 transition-all duration-200">
-              Get Your Free Quote
-            </div>
-          </button>
-        </div>
-      </section>
-    </>
-  );
-};
-
-// FAQ PAGE
 const FAQPage = ({ navigateTo }) => {
   const faqs = [
     {
@@ -1188,7 +1368,7 @@ const FAQPage = ({ navigateTo }) => {
     },
     {
       question: "How can I request a quote?",
-      answer: "You can request a quote through our website contact page by providing details about your move such as the starting and ending locations, the size of your property, and any specific services you require. Alternatively, you can call us at (819) 661-3882 for a personalized quote."
+      answer: "You can request a quote through our website contact page by providing details about your move such as the starting and ending locations, the size of your property, and any specific services you require. Alternatively, you can call us at (613) 908-1420 for a personalized quote."
     },
     {
       question: "Are your movers experienced?",
@@ -1398,7 +1578,7 @@ const ContactPage = ({ navigateTo }) => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-black text-gray-900 mb-1 text-lg">Phone</div>
-                    <div className="text-2xl font-bold text-blue-600 mb-1">(819) 661-3882</div>
+                    <div className="text-2xl font-bold text-blue-600 mb-1">(613) 908-1420</div>
                     <div className="text-sm text-gray-600">Available 24/7 for your convenience</div>
                   </div>
                 </div>
